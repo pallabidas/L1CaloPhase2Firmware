@@ -34,7 +34,6 @@
 // 8 PFclusters are created in one 21x8 (2+17+2 x 2+4+2) --> Total 6x8 = 48 pfclusters
 
 GCTint_t bestOf2(const GCTint_t& t0, const GCTint_t& t1) {
-#pragma HLS inline
   GCTint_t x;
   x = (t0.et > t1.et) ? t0 : t1;
   return x;
@@ -43,7 +42,6 @@ GCTint_t bestOf2(const GCTint_t& t0, const GCTint_t& t1) {
 GCTint_t getPeakOfStrip(const etaStrip_t& etaStrip){
 #pragma HLS ARRAY_PARTITION variable=etaStrip  complete dim=0
 #pragma HLS latency min=5
-#pragma HLS inline
 
   GCTint_t best12 = bestOf2(etaStrip.t[1],etaStrip.t[2]);
   GCTint_t best34 = bestOf2(etaStrip.t[3],etaStrip.t[4]);
@@ -57,7 +55,6 @@ GCTint_t getPeakOfStrip(const etaStrip_t& etaStrip){
 GCTint_t getPeakBin(const etaStripPeak_t& etaStripPeak){
 #pragma HLS ARRAY_PARTITION variable=etaStripPeak  complete dim=0
 #pragma HLS latency min=2
-#pragma HLS inline
 
   GCTint_t best01 = bestOf2(etaStripPeak.p[0], etaStripPeak.p[1]);
   GCTint_t best23 = bestOf2(etaStripPeak.p[2], etaStripPeak.p[3]);
@@ -84,7 +81,6 @@ GCTint_t getPeakBin(const etaStripPeak_t& etaStripPeak){
 GCTint_t getPeakPosition(const region_t& region){
 #pragma HLS ARRAY_PARTITION variable=region complete dim=0
 #pragma HLS latency min=10
-#pragma HLS inline
 
   etaStripPeak_t etaPeak;
 #pragma HLS ARRAY_PARTITION variable=etaPeak  complete dim=0
@@ -116,7 +112,6 @@ GCTint_t getPeakPosition(const region_t& region){
 region_t initStructure(ap_uint<12> temp[21][8]){
 #pragma HLS ARRAY_PARTITION variable=temp  complete dim=0
 #pragma HLS latency min=5
-#pragma HLS inline
 
   region_t r;
 #pragma HLS ARRAY_PARTITION variable=r complete dim=0
@@ -194,18 +189,34 @@ region_t initStructure(ap_uint<12> temp[21][8]){
 ap_uint<12> getEt(ap_uint<12> temp[21][8], ap_uint<7> eta, ap_uint<5> phi){
 #pragma HLS ARRAY_PARTITION variable=temp complete dim=0
 #pragma HLS latency min=37
-#pragma HLS inline
+
+  ap_uint<12> tempX[23][10] ;
+#pragma HLS ARRAY_PARTITION variable=tempX complete dim=0
+
+  for(loop i=0; i<23; i++){
+    for(loop j=0; j<10; j++){
+#pragma HLS unroll
+      tempX[i][j] = 0;
+    }
+  }
+
+  for(loop i=0; i<21; i++){
+    for(loop j=0; j<8; j++){
+#pragma HLS unroll
+      tempX[i+1][j+1] = temp[i][j];
+    }
+  }
 
   ap_uint<12> et_sumEta[3];
 #pragma HLS ARRAY_PARTITION variable=et_sumEta complete dim=0
 
-  for(loop i=0; i<19; i++){
-    for(loop j=0; j<6; j++){
+  for(loop i=0; i<21; i++){
+    for(loop j=0; j<8; j++){
 #pragma HLS unroll
-      if (i+1 == eta && j+1 == phi){
+      if (i == eta && j == phi){
         for(loop k=0; k<3; k++){
 #pragma HLS unroll
-          et_sumEta[k] = temp[i+k][j] + temp[i+k][j+1] + temp[i+k][j+2];
+          et_sumEta[k] = tempX[i+k][j] + tempX[i+k][j+1] + tempX[i+k][j+2];
         }
       }
     }
@@ -219,7 +230,6 @@ ap_uint<12> getEt(ap_uint<12> temp[21][8], ap_uint<7> eta, ap_uint<5> phi){
 void RemoveTmp(ap_uint<12> temp[21][8], ap_uint<7> eta, ap_uint<5> phi){
 #pragma HLS ARRAY_PARTITION variable=temp complete dim=0
 #pragma HLS latency min=35
-#pragma HLS inline
  
   for(loop i=0; i<21; i++){
     if(i+1 >= eta && i <= eta+1) {
@@ -305,6 +315,7 @@ GCTPfcluster_t pfcluster(ap_uint<12> temporary[21][8], ap_uint<7> etaoffset, ap_
   pfcluster[7].range(11, 0) =  temp_cluster7.range(11, 0);
   pfcluster[7].range(18, 12) =  temp_cluster7.range(18, 12) - 2 + etaoffset;
   pfcluster[7].range(23, 19) =  temp_cluster7.range(23, 19) - 2 + phioffset;
+
 
   GCTPfcluster_t GCTPfclusters;
 #pragma HLS ARRAY_PARTITION variable=GCTPfclusters  complete dim=0

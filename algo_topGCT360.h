@@ -70,7 +70,7 @@ ap_uint<2> brems ;
 } GCTcluster_t ;
 
 typedef struct {
-ap_uint<12> et ;
+ap_uint<11> et ;
 ap_uint<4> hoe ;
 } GCTtower_t ;
 
@@ -96,7 +96,6 @@ GCTCorrfiber_t GCTCorrfiber[N_GCTCORR_FIBERS] ;
 typedef struct {
 GCTCorrfiber_t GCTCorrfiber[N_GCTINTERNAL_FIBERS] ;
 } GCTinternal_t ;
-
 
 typedef struct {
 GCTtower_t GCTtower[N_GCTETA][N_GCTPHI] ;
@@ -140,7 +139,10 @@ typedef struct {
    etaStrip_t s20;
 } region_t;
 
-void algo_topGCT360(ap_uint<576> link_in[N_INPUT_LINKS_IP2], ap_uint<576> link_out[N_OUTPUT_LINKS_IP2]);
+//void algo_top(const GCTcard_t& GCTcard, ap_uint<15> cluster[10]);
+//void algo_top(const GCTcard_t& GCTcard, GCTtoCorr_t& GCTtoCorr) ;
+//void algo_topGCT360(ap_uint<576> link_in[N_INPUT_LINKS], ap_uint<576> link_out[N_OUTPUT_LINKS]);
+void algo_topGCT360(const GCTintTowers_t& GCTintTowers, GCTpfcluster_t TotalPfcluster[48]);
 
 GCTinternal_t getClustersTowersGCT(const GCTcard_t& GCTcard) ;
 
@@ -148,9 +150,8 @@ GCTcard_t getClustersCombinedGCT(const GCTcard_t& GCTcard) ;
 
 GCTintTowers_t  getFullTowersGCT(const GCTinternal_t& GCTinternal) ;
 
-GCTPfcluster_t pfcluster(ap_uint<12> temporary[21][8], ap_uint<7> etaoffset, ap_uint<5> phioffset);
 //GCTPfcluster_t pfcluster(const GCTintTowers_t& GCTintTowers);
+GCTPfcluster_t pfcluster(ap_uint<12> temporary[21][8], ap_uint<7> etaoffset, ap_uint<5> phioffset);
 //void pfcluster(GCTpfcluster_t GCTPfclusters[24], const GCTintTowers_t& GCTintTowers);
 
-void makePfclusters(const GCTintTowers_t& GCTintTowers, GCTpfcluster_t TotalPfcluster[48]);
 #endif

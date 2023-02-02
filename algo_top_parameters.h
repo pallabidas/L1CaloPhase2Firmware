@@ -23,10 +23,8 @@ const int N_SHORTS_PER_WORD = 4;
 /** More common algorithm definitions, do not remove **/
 // 5x2 RCT x4 = 40 inputs
 #define N_INPUT_LINKS	40
-#define N_INPUT_LINKS_IP2	20
 // -- N_OUTPUT_LINKS = TOWERS_IN_PHI*2 //For now we have each eta slice in two output links
 #define N_OUTPUT_LINKS  24	
-#define N_OUTPUT_LINKS_IP2  24	
 
 // 16G inputs
 #define N_INPUT_WORDS_PER_FRAME 6
