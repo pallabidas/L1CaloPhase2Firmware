@@ -70,7 +70,7 @@ ap_uint<2> brems ;
 } GCTcluster_t ;
 
 typedef struct {
-ap_uint<12> et ;
+ap_uint<11> et ;
 ap_uint<4> hoe ;
 } GCTtower_t ;
 
@@ -140,7 +140,7 @@ typedef struct {
    etaStrip_t s20;
 } region_t;
 
-void algo_topGCT360(ap_uint<576> link_in[N_INPUT_LINKS_IP2], ap_uint<576> link_out[N_OUTPUT_LINKS_IP2]);
+void algo_topGCT360(ap_uint<576> link_in[N_INPUT_LINKS], ap_uint<576> link_out[N_OUTPUT_LINKS]);
 
 GCTinternal_t getClustersTowersGCT(const GCTcard_t& GCTcard) ;
 
