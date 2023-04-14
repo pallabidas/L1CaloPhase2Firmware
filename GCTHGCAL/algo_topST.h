@@ -96,7 +96,7 @@ class tower{
 
 void algo_topST(ap_uint<576> link_in[N_GCTPHI], ap_uint<576> link_out[N_OUTPUT_ST]);
 
-void makeST(const GCTintTowers_t& GCTintTowers, ap_uint<11> barrelST[N_ST]);
+void makeST(const GCTintTowers_t& GCTintTowers, ap_uint<32> barrelST[N_ST]);
 
 //typedef struct {
 //    ap_uint<12> energy;

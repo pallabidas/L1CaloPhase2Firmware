@@ -367,14 +367,14 @@ void algo_topIP1(ap_uint<576> link_in[N_INPUT_LINKS], ap_uint<576> link_out[N_OU
 #pragma HLS PIPELINE II=9
 #pragma HLS INTERFACE ap_ctrl_hs port=return
 
-tower HGCALRegion[TOWER_IN_ETA][TOWER_IN_PHI];
-#pragma HLS ARRAY_PARTITION variable=HGCALRegion3 complete dim=0
+	tower HGCALRegion[TOWER_IN_ETA][TOWER_IN_PHI];
+#pragma HLS ARRAY_PARTITION variable=HGCALRegion complete dim=0
 
-jetInfo jet[10] ;
+	jetInfo jet[10] ;
 
 //creating 18x4 towers temporary 
 
-processInputLinks(link_in, HGCALRegion);
+	processInputLinks(link_in, HGCALRegion);
 
         for(loop i=0; i<10; i++) jet[i] = getRegion(HGCALRegion);
 

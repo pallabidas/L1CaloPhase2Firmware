@@ -34,7 +34,7 @@ void algo_topST(ap_uint<576> link_in[N_GCTPHI], ap_uint<576> link_out[N_OUTPUT_S
 
    GCTintTowers = processInputLinks(link_in);
 
-   ap_uint<11> barrelST[N_ST];
+   ap_uint<32> barrelST[N_ST];
 #pragma HLS ARRAY_PARTITION variable=barrelST complete dim=0
 
    makeST(GCTintTowers, barrelST);
@@ -44,7 +44,7 @@ void algo_topST(ap_uint<576> link_in[N_GCTPHI], ap_uint<576> link_out[N_OUTPUT_S
 
    for(loop i=0; i<N_ST_PERLINK; i++){
       start = i*32 ;
-      end = start + 11 ;
+      end = start + 31 ;
       link_out[0].range(end, start) = barrelST[i];
       link_out[1].range(end, start) = barrelST[i+15];
       link_out[2].range(end, start) = barrelST[i+30];

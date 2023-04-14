@@ -23,7 +23,12 @@ int main(){
   GCTintTowers.GCTtower[2][0].et = 15 ;
   GCTintTowers.GCTtower[1][1].et = 20 ;
   GCTintTowers.GCTtower[1][2].et = 5 ;
+  GCTintTowers.GCTtower[1][3].et = 15 ;
   GCTintTowers.GCTtower[3][0].et = 10 ;
+  GCTintTowers.GCTtower[5][5].et = 100 ;
+  GCTintTowers.GCTtower[5][6].et = 5 ;
+  GCTintTowers.GCTtower[5][7].et = 10 ;
+
 
   ap_uint<576> link_in[N_GCTPHI]; // 72 input links
   ap_uint<576> link_out[N_OUTPUT_ST]; // 6 output links
