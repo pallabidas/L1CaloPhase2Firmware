@@ -1,10 +1,10 @@
 ### Set the top level module
-set_top algo_topST
+set_top algo_topJet
 
 ### Add source code
-add_files GCTHGCAL/algo_topST.cpp
-add_files GCTHGCAL/makeST.cpp
+add_files GCTHGCAL/algo_topJet.cpp
+add_files GCTHGCAL/makeSTforJet.cpp
 
 ### Add testbed files
-add_files -tb GCTHGCAL/algo_top_tbST.cpp
+add_files -tb GCTHGCAL/algo_top_tbJet.cpp
 
