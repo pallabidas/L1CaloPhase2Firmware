@@ -1,4 +1,4 @@
-#include "algo_topST.h"
+#include "algo_topJet.h"
 
 ap_uint<2> getPeakBinOf3(ap_uint<12> et0, ap_uint<12> et1, ap_uint<12> et2) {
 #pragma HLS inline
